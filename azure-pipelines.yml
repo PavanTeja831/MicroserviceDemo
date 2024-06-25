@@ -17,26 +17,26 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
-    projects: '***/CustomerApi.csproj'
+    projects: '**/CustomerApi.csproj'
     feedsToUse: 'select'
   displayName: 'Restore Nuget Package'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    projects: '***/CustomerApi.csproj'
+    projects: '**/CustomerApi.csproj'
     arguments: '--no-restore'
   displayName: 'Build'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
-    projects: '****/*Test.csproj'
+    projects: '**/*Test.csproj'
     arguments: '--no-restore'
   displayName: 'Unit Testing'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
     publishWebProjects: false
-    projects: '***/CustomerApi.csproj'
+    projects: '**/CustomerApi.csproj'
     arguments: '--configuration $(buildConfiguration) --no-restore'
     zipAfterPublish: true
   displayName: 'Publish Package'

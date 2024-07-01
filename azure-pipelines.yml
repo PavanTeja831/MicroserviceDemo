@@ -40,8 +40,8 @@ stages:
             projects: '**/CustomerApi.csproj'
             arguments: '-o $(Build.ArtifactStagingDirectory)'
           displayName: 'Publish'
-        - task: PublishBuildArtifacts@1
+        - task: PublishPipelineArtifact@1
           inputs:
-            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-            ArtifactName: 'RetailApp'
-          displayName: Publish Artifact
+            targetPath: '$(Build.ArtifactStagingDirectory)'
+            artifact: 'RetailApp'
+            

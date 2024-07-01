@@ -10,32 +10,39 @@ trigger:
 variables:
   buildConfiguration: 'Release'
 
-pool: Default
+stages:
+  - stage: Build
+    pool: Default
+    jobs:
+      - job: Build
 
-steps:
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'restore'
-    projects: '**/CustomerApi.csproj'
-    feedsToUse: 'select'
-  displayName: 'Restore Nuget Package'
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    projects: '**/CustomerApi.csproj'
-    arguments: '--no-restore'
-  displayName: 'Build'
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'test'
-    projects: '**/*Test.csproj'
-    arguments: '--no-restore'
-  displayName: 'Unit Testing'
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    publishWebProjects: false
-    projects: '**/CustomerApi.csproj'
-    arguments: '--configuration $(buildConfiguration) --no-restore'
-    zipAfterPublish: true
-  displayName: 'Publish Package'
+        steps:
+        - task: DotNetCoreCLI@2
+          inputs:
+                    command: 'restore'
+                    projects: '**/CustomerApi.csproj'
+                    feedsToUse: 'select'
+          displayName: 'Restore Nuget Package'
+        - task: DotNetCoreCLI@2
+          inputs:
+                    command: 'build'
+                    projects: '**/CustomerApi.csproj'
+                    arguments: '--no-restore'
+          displayName: 'Build'
+        - task: DotNetCoreCLI@2
+          inputs:
+                    command: 'test'
+                    projects: '**/*Test.csproj'
+                    arguments: '--no-restore'
+          displayName: 'Unit Testing'
+        - task: DotNetCoreCLI@2
+          inputs:
+                    command: 'publish'
+                    publishWebProjects: true
+                    arguments: '-o $(Build.ArtifactStagingDirectory)'
+          displayName: 'Publish Package'
+        - task: PublishBuildArtifacts@1
+          displayName: Publish Artifact
+          inputs:
+            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            ArtifactName: RetailApp

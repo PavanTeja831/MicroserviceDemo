@@ -22,26 +22,24 @@ stages:
             command: 'restore'
             projects: '**/CustomerApi.csproj'
             feedsToUse: 'select'
-          displayName: 'Restore Nuget Package'
+          displayName: Restore
         - task: DotNetCoreCLI@2
           inputs:
             command: 'build'
             projects: '**/CustomerApi.csproj'
-          displayName: 'Build'
+          displayName: Build
         - task: DotNetCoreCLI@2
           inputs:
             command: 'test'
-            projects: '**/*Test.csproj'
-          displayName: 'Unit Testing'
+            projects: '**/CustomerApi.Test.csproj'
+          displayName: Unit Test
         - task: DotNetCoreCLI@2
           inputs:
             command: 'publish'
             publishWebProjects: true
-            arguments: '-o $(Build.ArtifactStagingDirectory)'
-            projects: '**/CustomerApi.csproj'
-          displayName: 'Publish Package'
+          displayName: Publish
         - task: PublishBuildArtifacts@1
-          displayName: Publish Artifact
           inputs:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-            ArtifactName: RetailApp
+            ArtifactName: 'RetailApp'
+          displayName: Publish Artifact

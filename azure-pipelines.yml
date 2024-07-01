@@ -19,27 +19,26 @@ stages:
         steps:
         - task: DotNetCoreCLI@2
           inputs:
-                    command: 'restore'
-                    projects: '**/CustomerApi.csproj'
-                    feedsToUse: 'select'
+            command: 'restore'
+            projects: '**/CustomerApi.csproj'
+            feedsToUse: 'select'
           displayName: 'Restore Nuget Package'
         - task: DotNetCoreCLI@2
           inputs:
-                    command: 'build'
-                    projects: '**/CustomerApi.csproj'
-                    arguments: '--no-restore'
+            command: 'build'
+            projects: '**/CustomerApi.csproj'
           displayName: 'Build'
         - task: DotNetCoreCLI@2
           inputs:
-                    command: 'test'
-                    projects: '**/*Test.csproj'
-                    arguments: '--no-restore'
+            command: 'test'
+            projects: '**/*Test.csproj'
           displayName: 'Unit Testing'
         - task: DotNetCoreCLI@2
           inputs:
-                    command: 'publish'
-                    publishWebProjects: true
-                    arguments: '-o $(Build.ArtifactStagingDirectory)'
+            command: 'publish'
+            publishWebProjects: true
+            arguments: '-o $(Build.ArtifactStagingDirectory)'
+            projects: '**/CustomerApi.csproj'
           displayName: 'Publish Package'
         - task: PublishBuildArtifacts@1
           displayName: Publish Artifact
